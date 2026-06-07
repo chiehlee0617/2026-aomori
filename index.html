@@ -1,0 +1,682 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍏 2026 青森家族自駕之旅 ｜ 五天四夜初夏新綠完美行程</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f2f7f4;
+            --card-bg: #ffffff;
+            --primary-color: #1b4332; /* 奧入瀨深綠 */
+            --accent-red: #d90429;    /* 青森蘋果紅 */
+            --text-dark: #2b2d42;
+            --soft-green: #40916c;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding-bottom: 80px;
+        }
+
+        header {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65)), 
+                              url('https://lipstb.com/wp-content/uploads/2021/04/hirosakipark-greenseason-scaled.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 40px 15px 30px 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 { 
+            margin: 0; 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+        
+        header p { 
+            margin: 8px 0 20px 0; 
+            font-size: 1rem; 
+            opacity: 0.95;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .weather-tip-box {
+            max-width: 570px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 0.88rem;
+            color: #ffffff;
+            line-height: 1.6;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .weather-tip-box b { color: #ffeaa7; font-size: 0.95rem; }
+        .weather-tip-box ul { margin: 6px 0 0 0; padding-left: 20px; }
+        .weather-tip-box li { margin-bottom: 4px; }
+
+        .day-scroller {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            overflow-x: auto;
+            padding: 12px 8px;
+            z-index: 1000;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .day-scroller::-webkit-scrollbar { display: none; }
+
+        .day-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 4px;
+            background-color: #e9ecef;
+            color: var(--text-dark);
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .day-badge.active {
+            background-color: var(--soft-green);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(64,145,108,0.3);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 15px auto;
+            padding: 0 12px;
+        }
+
+        .country-header {
+            border-left: 6px solid var(--accent-red);
+            padding-left: 12px;
+            margin: 20px 0 15px 0;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .day-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+            padding: 18px;
+            scroll-margin-top: 85px;
+        }
+
+        .day-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .day-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .day-date {
+            color: var(--accent-red);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .day-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 10px 0;
+            color: #111111;
+            line-height: 1.4;
+        }
+
+        .item-block {
+            background: #fafafa;
+            border-left: 4px solid var(--soft-green);
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .time-tag {
+            display: inline-block;
+            background-color: #f1f3f5;
+            color: #495057;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #222;
+            margin-top: 2px;
+            margin-bottom: 10px;
+        }
+
+        .item-img {
+            width: 100%;
+            height: auto;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .item-details {
+            margin: 8px 0 0 0;
+            padding-left: 18px;
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.5;
+        }
+        
+        .item-details li { margin-bottom: 6px; }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .btn-map { background-color: #e2eafc; color: #1d3557; }
+        .btn-ticket { background-color: #ffe3a8; color: #d90429; border: 1px solid #ffe3a8; }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🍏 2026 青森初夏新綠之旅</h1>
+        <p>2026/06/09 - 06/13 ｜ 五天四夜家族自駕完美極順版</p>
+        
+        <div class="weather-tip-box">
+            <b>🌤️ 6月中旬 ｜ 青森即時氣溫與自駕提醒：</b>
+            <ul>
+                <li>🌡️ <b>市區氣溫</b>：約 15°C ~ 22°C。白天陽光下體感如初夏般舒適（穿短袖或薄長袖），但<b>一入夜便會降到 15°C 左右</b>，強烈建議隨身攜帶防風外套。</li>
+                <li>⛰️ <b>山區秘境（奥入瀨、八甲田、酸ヶ湯）</b>：海拔較高，氣溫通常比市區<b>再低 5°C ~ 8°C</b>。清晨或陰天可能僅有 10°C 出頭，請務必幫家人準備<b>保暖防風外套、發熱衣</b>（泡湯後防著涼）及好走路的防滑防潑水球鞋。</li>
+                <li>⛽ <b>自駕小叮嚀</b>：山區易起霧，請全程開啟大燈。青森鄉下加油站通常 18:00-19:00 就打烊，油量剩<b>半桶</b>時就要順路加滿。</li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="day-scroller" id="dayScroller">
+        <a href="#Day-1" class="day-badge">Day-1 (6/9)</a>
+<a href="#Day-2" class="day-badge">Day-2 (6/10)</a>
+<a href="#Day-3" class="day-badge">Day-3 (6/11)</a>
+<a href="#Day-4" class="day-badge">Day-4 (6/12)</a>
+<a href="#Day-5" class="day-badge">Day-5 (6/13)</a>
+
+    </div>
+
+    <div class="container">
+        <div class="country-section">
+<h2 class="country-header">日本青森自駕 🇯🇵</h2>
+  <div class="day-card" id="Day-1">
+    <div class="day-card-header">
+      <span class="day-tag">Day-1</span>
+      <span class="day-date">2026/06/09</span>
+    </div>
+    <div class="day-title">抵達青森 ｜ 機場取車、淺蟲溫泉看海足湯、頂級炭火燒肉慶祝</div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 12:00 - 14:30</span>
+      <div class="item-title">✈️ 中午 ｜ 飛機餐補給</div>
+      <ul class="item-details">
+        <li>於飛機上享用午餐，全家養精蓄銳準備降落青森。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Aomori+Airport" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 14:30 - 16:00</span>
+      <div class="item-title">✈️ 抵達青森機場 ➔ 辦理入境與取車</div>
+      <ul class="item-details">
+        <li>班機順利降落青森機場，全家依序辦理入境手續、提取行李。</li>
+        <li>前往機場租車櫃檯或搭乘接駁車前往取車店面辦理手續，確認租借 ETC 卡，完成取車檢驗。</li>
+        <li>📌 取車地點：Kotani-1-14 Ōtani, Aomori, 030-0155, Japan</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Kotani-1-14+Ōtani,+Aomori,+030-0155,+Japan" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 16:00 - 16:40</span>
+      <div class="item-title">🚗 自駕出發 ➔ 淺蟲溫泉兜風</div>
+      <ul class="item-details">
+        <li>初次開車上路請慢行，順著導航開往有「東北熱海」之稱的淺蟲溫泉。</li>
+        <li>沿途可欣賞陸奧灣的海景，舒緩坐飛機的疲勞。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Asamushi+Onsen+Station" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 16:40 - 18:30</span>
+      <div class="item-title">♨️ 淺蟲溫泉散策（海邊夕陽與溫泉體驗）</div>
+      <img class="item-img" src="https://www.jrtimes.tw/upload/control/84dde310-8388-409c-ae2a-f654d8143207.jpg" alt="♨️ 淺蟲溫泉散策（海邊夕陽與溫泉體驗）" loading="lazy">
+      <ul class="item-details">
+        <li>✨ 必做體驗：在溫泉街海邊悠閒散步，享受免費的在地足湯。</li>
+        <li>📸 拍照推薦：前往車站對面的「道之驛 淺蟲溫泉 (Yusa)」，可搭電梯至 5 樓展望台泡湯或純拍照，飽覽陸奧灣與「湯之島」的绝美夕陽。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Michi-no-Eki+Asamushi-Onsen+Yusa" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 19:00 - 20:30</span>
+      <div class="item-title">🥩 🍽 晚餐 ｜ 炭火燒肉 Daijun（大純） 大口吃青森牛</div>
+      <ul class="item-details">
+        <li>開車返回青森市區飯店 Check-in 並停妥車輛。</li>
+        <li>🏠 住宿點：Daiwa Roynet Hotel Aomori（戴瓦羅內青森飯店）</li>
+        <li>😋 慶祝首晚：享用市區極具人氣的頂級炭火燒肉，肉質鮮美、油花勻稱。第一天坐飛機較累，免排隊的預約制燒肉是最佳選擇！</li>
+        <li>💡 貼心提醒：此店極為熱門，請務必提早透過 Tabelog 或委託飯店提早 1-2 週預訂。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=炭火焼肉+大純" target="_blank">📍 地圖導航</a>
+        <a class="action-btn btn-ticket" href="https://tabelog.com/tw/aomori/A0201/A020101/2007966/" target="_blank">🎫 預約/食記連結</a>
+      </div>
+    </div>
+  </div>
+  <div class="day-card" id="Day-2">
+    <div class="day-card-header">
+      <span class="day-tag">Day-2</span>
+      <span class="day-date">2026/06/10</span>
+    </div>
+    <div class="day-title">奧入瀨溪流新綠 ｜ 森林芬多精散步、十和田湖姬鱒料理、秘湯酸ヶ湯</div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 07:30 - 10:00</span>
+      <div class="item-title">🚗 早安青森 ｜ 自駕前往奧入瀨溪流</div>
+      <ul class="item-details">
+        <li>全家在飯店享用完早餐後準時出發，向南駛入山區。</li>
+        <li>📌 自駕提示：山路容易起霧，請開大燈並放慢車速。出發前確保油量在半桶以上！</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Oirase+Stream" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 10:00 - 13:00</span>
+      <div class="item-title">🌿 🌲 核心亮點 ｜ 奥入瀬渓流 森林新綠散策 🌟</div>
+      <img class="item-img" src="https://svcstrg.cld.navitime.jp/imgfile/02301_1310349_01.jpg" alt="🌿 🌲 核心亮點 ｜ 奥入瀬渓流 森林新綠散策 🌟" loading="lazy">
+      <ul class="item-details">
+        <li>✨ 必看奇景：6 月正值完美的新綠季節，整片森林翠綠欲滴，人潮舒適不擁擠！</li>
+        <li>🚶 散步精華路線：自駕可分段停靠。必看點包含：石ヶ戶（傳奇女盜小屋）、阿修羅之流（水流最湍急磅礴處）、雲井瀑布、以及寬闊精跡的「銚子大滝」。</li>
+        <li>💡 貼心提醒：步道多有水氣，請全家穿著防滑好走路的球鞋。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Ishigado+Rest+Area" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 13:15 - 15:00</span>
+      <div class="item-title">🐟 中午 ｜ 十和田湖畔散步 ＆ 享用野生姬鱒料理</div>
+      <ul class="item-details">
+        <li>開車抵達美麗的十和田湖畔，欣賞清澈見底的湖光山色。</li>
+        <li>🍽 午餐安排：在湖畔餐廳享用在地特產「姬鱒料理」（鹽烤或生魚片），肉質鮮美細緻。餐後可散步至著名的「少女之像」合照。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Lake+Towada" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 15:45 - 16:30</span>
+      <div class="item-title">♨️ 秘湯 ➔ 酸ヶ湯温泉 煙霧裊裊的古老體驗</div>
+      <img class="item-img" src="https://www.jrtimes.tw/upload/control/c149bd2c-01a3-4c1e-8faa-3ba91a2540ef.jpg" alt="♨️ 秘湯 ➔ 酸ヶ湯温泉 煙霧裊裊的古老體驗" loading="lazy">
+      <ul class="item-details">
+        <li>回程經過著名的八甲田山區，停靠擁有 300 年歷史的「酸ヶ湯温泉」。</li>
+        <li>體驗其知名的千人混浴檜木造大浴場（日歸泡湯直接購票即可，若需要個室休息或用餐方案才需事先預約）。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Sukayu+Onsen" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 18:30 - 20:30</span>
+      <div class="item-title">🍽 晚餐 ｜ 返回市區 ＆ 帆立貝料理大餐</div>
+      <ul class="item-details">
+        <li>約 18:30 左右安全返回市區（山區開車建議在 17:00 前下山較安全）。</li>
+        <li>晚餐安排：尋找提供「帆立貝味噌燒（貝焼き味噌）」的在地老字號餐廳，大口品嚐青森引以為傲的肥美扇貝。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Aomori+Station" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+  </div>
+  <div class="day-card" id="Day-3">
+    <div class="day-card-header">
+      <span class="day-tag">Day-3</span>
+      <span class="day-date">2026/06/11</span>
+    </div>
+    <div class="day-title">弘前城下町文藝 ｜ 蘋果派巡禮、白神山地夢幻青池、生魚片名店排隊</div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 08:30 - 09:30</span>
+      <div class="item-title">🚗 出發 ➔ 歷史文化之城 弘前</div>
+      <ul class="item-details">
+        <li>早晨出發向西行駛，前往充滿大正浪漫與歷史風情的弘前市。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Hirosaki+Castle" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 09:30 - 12:30</span>
+      <div class="item-title">🏯 散策 ｜ 弘前城公園 ＆ 浪漫蘋果派巡禮</div>
+      <img class="item-img" src="https://tw.wamazing.com/media/wp-content/uploads/sites/4/2019/07/hirosakicastle_eyecatch-853x569.jpg.webp" alt="🏯 散策 ｜ 弘前城公園 ＆ 浪漫蘋果派巡禮" loading="lazy">
+      <ul class="item-details">
+        <li>✨ 值得一逛：初夏的弘前城護城河被綠樹包圍，散步起來極為涼爽愜意。</li>
+        <li>🥧 伴手甜點：弘前是日本蘋果產量第一的重鎮。散步完一定要去城下的咖啡廳來一塊剛出爐、酸甜酥脆的「青森蘋果派」！</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Hirosaki+Park" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 12:30 - 13:30</span>
+      <div class="item-title">🍽 中午 ｜ 弘前特色洋食咖啡廳午餐</div>
+      <ul class="item-details">
+        <li>午餐安排：在藤田紀念庭園的洋館內，一邊欣賞優雅的日式與西式庭園，一邊享用精緻的「蘋果咖哩飯」或法式洋食。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=藤田記念庭園+洋館" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 15:00 - 16:30</span>
+      <div class="item-title">💎 奇景 ｜ 白神山地 🌟 夢幻 Tiffany 藍「青池」</div>
+      <img class="item-img" src="https://www.tohokukanko.jp/lsc/upfile/spot/0100/7187/1007187_1_l.jpg" alt="💎 奇景 ｜ 白神山地 🌟 夢幻 Tiffany 藍「青池」" loading="lazy">
+      <ul class="item-details">
+        <li>✨ 世界遺產外圍：來到白神山地十二湖中最著名的「青池」。</li>
+        <li>湖水呈現不可思議的深邃湛藍色，清澈到能看見沉沒在湖底的枯木，在初夏陽光折射下如同寶石。</li>
+        <li>📌 散步提示：走外圍步道看青池完全不需要預約，直接前往即可。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Aoike" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 16:30 - 18:30</span>
+      <div class="item-title">🛒 逛街 ｜ 海岸線兜風 ＆ 唐吉訶德大掃貨</div>
+      <ul class="item-details">
+        <li>沿著美麗的日本海海岸線開車返回青森市區，一路上欣賞落日餘暉。</li>
+        <li>回市區前順路前往「唐吉訶德 青森店」進行藥妝與零食大補給，開車載戰利品超輕鬆！</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Don+Quijote+Aomori" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 19:00 - 20:30</span>
+      <div class="item-title">🐟 🍽 晚餐 ｜ お食事処 おさない（Osanai 干貝與生魚片名店）</div>
+      <ul class="item-details">
+        <li>😋 鮮味爆棚：青森老字號頂級排隊名店。招牌是驚人肥美的「帆立貝刺身（干貝生魚片）」、「爆卵海膽」與各式在地烤魚定食，性價比極高！</li>
+        <li>📌 現場排隊：此店不可預約，現場需要排隊。建議返回市區後，派一人先停好車，其餘家人可先到店門口排隊，以節省時間。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=お食事処+おさない" target="_blank">📍 地圖導航</a>
+        <a class="action-btn btn-ticket" href="https://maps.app.goo.gl/rTKEhWf7ZfhWtqL47?g_st=ic" target="_blank">🔗 景點/餐廳資訊</a>
+      </div>
+    </div>
+  </div>
+  <div class="day-card" id="Day-4">
+    <div class="day-card-header">
+      <span class="day-tag">Day-4</span>
+      <span class="day-date">2026/06/12</span>
+    </div>
+    <div class="day-title">海之八戶海鮮大盛宴 ｜ 八食中心自選燒烤、蕪島海貓神社、草皮海岸步道</div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 08:30 - 10:00</span>
+      <div class="item-title">🚗 東行出發 ➔ 前往海港大城 八戶</div>
+      <ul class="item-details">
+        <li>今日走付費高速公路（使用 ETC）橫跨至青森東邊的八戶市，車程約 1.5 小時。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Hachishoku+Center" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 10:00 - 11:15</span>
+      <div class="item-title">🦀 🍽 中午 ｜ 八食中心（自選現烤海鮮盛宴）🔥</div>
+      <img class="item-img" src="https://rimage.gnst.jp/livejapan.com/public/article/detail/a/30/00/a3000038/img/zh-tw/a3000038_parts_5d428e5a94769.jpg?20260401000000&q=80&rw=686&rh=490" alt="🦀 🍽 中午 ｜ 八食中心（自選現烤海鮮盛宴）🔥" loading="lazy">
+      <ul class="item-details">
+        <li>😋 午餐安排：青森最強海鮮市場！全家可自由在市場內挑選新鮮的巨型扇貝、生蠔、大蝦、黑鮪魚生魚片。</li>
+        <li>買完直接帶去附設的「七厘村」租借炭火烤爐，現場現烤現吃，極致鮮美！</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Hachishoku+Center" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 11:15 - 12:40</span>
+      <div class="item-title">⛩ 奇觀 ｜ 館鼻公園眺望 ＆ 蕪島神社（海貓之島）</div>
+      <img class="item-img" src="https://visithachinohe.com/wp-content/uploads/2019/05/IMG_2015.jpg" alt="⛩ 奇觀 ｜ 館鼻公園眺望 ＆ 蕪島神社（海貓之島）" loading="lazy">
+      <ul class="item-details">
+        <li>先至館鼻公園飽覽美麗的八戶港灣景觀。</li>
+        <li>隨後前往驚人的「蕪島神社」。這裡是黑尾鷗（海貓）的繁殖聖地，初夏滿山滿谷飛舞的黑尾鷗非常壯觀。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Kabushima+Shrine" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 13:00 - 15:30</span>
+      <div class="item-title">🌊 散策 ｜ 葦毛崎展望台 ＆ 種差海岸天然大草原</div>
+      <img class="item-img" src="https://visithachinohe.com/wp-content/uploads/2019/05/ashigezaki-tenbodai_n02.jpg" alt="🌊 散策 ｜ 葦毛崎展望台 ＆ 種差海岸天然大草原" loading="lazy">
+      <ul class="item-details">
+        <li>✨ 絕美海岸：先到歐式古堡風格的葦毛崎展望台，飽覽太平洋的懸崖絕景。</li>
+        <li>接著前往「種差海岸」，這裡最神奇的是巨大的天然綠色草皮一路延伸至蔚藍的海邊。全家在草地上吹著海風散步，非常療癒。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Tanesashi+Coast" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 15:30 - 18:30</span>
+      <div class="item-title">☕ 休息 ｜ 海景咖啡廳 ＆ 安全返回青森飯店</div>
+      <ul class="item-details">
+        <li>在海岸線挑選一家舒適的海景咖啡廳享用下午茶，隨後好整以暇開車返回青森 Daiwa Roynet 飯店。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Daiwa+Roynet+Hotel+Aomori" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 18:30 - 20:30</span>
+      <div class="item-title">🍽 晚餐 ｜ 青森市區新町通商店街晚餐</div>
+      <ul class="item-details">
+        <li>晚餐安排：回到新町通商店街附近散步，尋找在地美味的居酒屋或青森鄉土料理屋。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Daiwa+Roynet+Hotel+Aomori" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+  </div>
+  <div class="day-card" id="Day-5">
+    <div class="day-card-header">
+      <span class="day-tag">Day-5</span>
+      <span class="day-date">2026/06/13</span>
+    </div>
+    <div class="day-title">青森港區慢遊最後衝刺 ｜ 睡魔文化體驗、A-FACTORY 採購伴手禮、圓滿回程</div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 08:30 - 09:30</span>
+      <div class="item-title">🍳 早安 ｜ 享用飯店早餐 ＆ 辦理退房</div>
+      <ul class="item-details">
+        <li>在 Daiwa Roynet Hotel Aomori 享受完豐富的在地食材早餐後辦理 Check-out，大件行李先拉至車上放妥。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Daiwa+Roynet+Hotel+Aomori" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 09:30 - 10:30</span>
+      <div class="item-title">👹 文化 ｜ 睡魔之家 WA RASSE (ねぶた家)</div>
+      <img class="item-img" src="https://www.nebuta.jp/warasse/foreign/images/photo/warasse.jpg" alt="👹 文化 ｜ 睡魔之家 WA RASSE (ねぶた家)" loading="lazy">
+      <ul class="item-details">
+        <li>✨ 必看展覽：建築外觀前衛醒目。馆內展示了在真正睡魔祭中得獎、體積巨大的純手工精緻燈籠，完美體驗青森夏祭的熱血沸騰。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Nebuta+Museum+WA+RASSE" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 10:30 - 12:30</span>
+      <div class="item-title">🍏 🎁 購物 ＆ 🍽 中午午餐 ｜ A-FACTORY（文創伴手禮與港景餐廳）🌟</div>
+      <img class="item-img" src="https://aomori-tourism.com/lsc/upfile/spot/0000/3697/3697_107_l.jpg" alt="🍏 🎁 購物 ＆ 🍽 中午午餐 ｜ A-FACTORY（文創伴手禮與港景餐廳）🌟" loading="lazy">
+      <ul class="item-details">
+        <li>✨ 必買聖地：蓋在海邊的質感三角形木造商場。可在這裡大掃貨：各式青森蘋果乾、蘋果派、蘋果果汁等。</li>
+        <li>🍽 午餐安排：直接在 A-FACTORY 的質感餐廳內享用午餐（例如 2 樓的義式蕎麥薄餅餐廳 Galetteria da Sasino 或 1 樓的美食廣場），看著陸奧灣港景享用精緻的在地輕食、蘋果咖哩或牛肉漢堡排排排飯，好整以暇不趕時間。</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=A-FACTORY" target="_blank">📍 地圖導航</a>
+        <a class="action-btn btn-ticket" href="https://maps.app.goo.gl/Dpr3A2pNWX5JJ9Rk6?g_st=ic" target="_blank">🔗 景點/餐廳資訊</a>
+      </div>
+    </div>
+    <div class="item-block">
+      <span class="time-tag">⏱ 12:30 - 15:30</span>
+      <div class="item-title">🚗 還車 ➔ 青森機場 ➔ 圓滿回程</div>
+      <ul class="item-details">
+        <li>12:30 前開車返回指定營業所還車（記得在還車前找臨近加油站將油箱加滿）。</li>
+        <li>📌 還車地址：Kotani-1-14 Ōtani, Aomori, 030-0155, Japan</li>
+        <li>辦妥還車手續後，搭乘店家免費接駁車前往航廈辦理登機。15:30 班機起飛，圓滿回國！</li>
+      </ul>
+      <div class="btn-group">
+        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Kotani-1-14+Ōtani,+Aomori,+030-0155,+Japan" target="_blank">📍 地圖導航</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+
+    <a href="#" class="back-to-top">▲</a>
+
+    <script>
+        const badges = document.querySelectorAll('.day-badge');
+        const scroller = document.getElementById('dayScroller');
+        const cards = document.querySelectorAll('.day-card');
+        let isClickScrolling = false;
+        let clickTimeout;
+
+        function centerBadge(activeBadge) {
+            const badgeOffset = activeBadge.offsetLeft;
+            const badgeWidth = activeBadge.offsetWidth;
+            const scrollerWidth = scroller.offsetWidth;
+            scroller.scrollTo({
+                left: badgeOffset - (scrollerWidth / 2) + (badgeWidth / 2),
+                behavior: 'smooth'
+            });
+        }
+
+        badges.forEach(badge => {
+            badge.addEventListener('click', function(e) {
+                isClickScrolling = true;
+                clearTimeout(clickTimeout);
+
+                badges.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                centerBadge(this);
+
+                clickTimeout = setTimeout(() => {
+                    isClickScrolling = false;
+                }, 800); 
+            });
+        });
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            if (isClickScrolling) return;
+
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    const targetBadge = document.querySelector(`.day-badge[href="#${currentId}"]`);
+                    
+                    if (targetBadge) {
+                        badges.forEach(b => b.classList.remove('active'));
+                        targetBadge.classList.add('active');
+                        centerBadge(targetBadge);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => observer.observe(card));
+
+        if(badges.length > 0) {
+            badges[0].classList.add('active');
+        }
+    </script>
+</body>
+</html>
