@@ -12,7 +12,7 @@ if not os.path.exists(YAML_FILE):
 with open(YAML_FILE, "r", encoding="utf-8") as f:
     aomori_data = yaml.safe_load(f)
 
-# 2. 網頁 HTML & CSS 模板（更新：加入天氣告示牌樣式）
+# 2. 網頁 HTML & CSS 模板（更新：加入圖片固定寬高比防止滾動跑位）
 html_template = """
 <!DOCTYPE html>
 <html lang="zh-TW">
@@ -47,12 +47,13 @@ html_template = """
         .container {{ max-width: 600px; margin: 15px auto; padding: 0 12px; }}
         .country-header {{ border-left: 6px solid var(--accent-red); padding-left: 12px; margin: 20px 0 15px 0; font-size: 1.3rem; color: var(--primary-color); font-weight: bold; }}
         
-        /* 🌤️ 新增：每日天氣提示方塊樣式 */
+        /* 🌤️ 每日天氣提示方塊樣式 */
         .weather-info-box {{ background-color: #f0f7ff; border-left: 5px solid #007bff; padding: 12px; margin: 12px 0; border-radius: 0 8px 8px 0; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02); }}
         .weather-info-title {{ margin: 0 0 6px 0; font-weight: 700; font-size: 0.92rem; color: #2b2d42; }}
         .weather-info-tip {{ margin: 0; font-size: 0.85rem; color: #555; line-height: 1.5; }}
         
-        .day-card {{ background: var(--card-bg); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; padding: 18px; scroll-margin-top: 85px; }}
+        /* 修正：增加 scroll-margin-top 確保不被上方固定 Scroller 擋到 */
+        .day-card {{ background: var(--card-bg); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; padding: 18px; scroll-margin-top: 75px; }}
         .day-card-header {{ display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #e9ecef; padding-bottom: 10px; margin-bottom: 12px; }}
         .day-tag {{ background: var(--primary-color); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }}
         .day-date {{ color: var(--accent-red); font-weight: 700; font-size: 1rem; }}
@@ -60,7 +61,10 @@ html_template = """
         .item-block {{ background: #fafafa; border-left: 4px solid var(--soft-green); padding: 12px; margin-top: 15px; border-radius: 0 8px 8px 0; }}
         .time-tag {{ display: inline-block; background-color: #f1f3f5; color: #495057; font-size: 0.8rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; border: 1px solid #dee2e6; }}
         .item-title {{ font-weight: 700; font-size: 1rem; color: #222; margin-top: 2px; margin-bottom: 10px; }}
-        .item-img {{ width: 100%; height: auto; max-height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }}
+        
+        /* 修正：限制圖片高度並設定寬高比，防非同步載入撐開元件導致定位飄開 */
+        .item-img {{ width: 100%; height: auto; max-height: 220px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; margin-bottom: 10px; background-color: #e9ecef; }}
+        
         .item-details {{ margin: 8px 0 0 0; padding-left: 18px; font-size: 0.9rem; color: #444; line-height: 1.5; }}
         .item-details li {{ margin-bottom: 4px; }}
         .food-option-card {{ background: var(--option-bg); border: 1px solid var(--option-border); border-radius: 8px; padding: 12px; margin-top: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.01); }}
@@ -166,14 +170,15 @@ def generate_aomori_html(data):
     for country, days in data.items():
         main_content += f'<div class="country-section">\n<h2 class="country-header">{country}</h2>\n'
         for d in days:
-            main_content += f'  <div class="day-card" id="{day_id}">\n'
+            # 💡 關鍵修正：將原本錯誤的 id="{day_id}" 改為正確的 id="{d['day']}"
+            main_content += f'  <div class="day-card" id="{d["day"]}">\n'
             main_content += f'    <div class="day-card-header">\n'
             main_content += f'      <span class="day-tag">{d["day"]}</span>\n'
             main_content += f'      <span class="day-date">{d["date"]}</span>\n'
             main_content += f'    </div>\n'
             main_content += f'    <div class="day-title">{d["title"]}</div>\n'
             
-            # ====== 🌤️ 更新：自動注入每日天氣與降雨率資訊 ======
+            # ====== 🌤️ 自動注入每日天氣與降雨率資訊 ======
             if d.get("weather") or d.get("rain_prob"):
                 weather_str = d.get("weather", "未知")
                 rain_str = d.get("rain_prob", "--%")
