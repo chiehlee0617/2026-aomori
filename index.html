@@ -14,11 +14,11 @@
             --accent-red: #d90429;    /* 青森蘋果紅 */
             --text-dark: #2b2d42;
             --soft-green: #40916c;
+            --option-bg: #f8fdfa;     /* 多方案小卡背景 */
+            --option-border: #b7e4c7; /* 多方案小卡邊框 */
         }
         
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
         
         body {
             font-family: 'Noto Sans TC', sans-serif;
@@ -40,20 +40,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        header h1 { 
-            margin: 0; 
-            font-size: 1.8rem; 
-            font-weight: 700; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-        }
-        
-        header p { 
-            margin: 8px 0 20px 0; 
-            font-size: 1rem; 
-            opacity: 0.95;
-            font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-        }
+        header h1 { margin: 0; font-size: 1.8rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
+        header p { margin: 8px 0 20px 0; font-size: 1rem; opacity: 0.95; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
 
         .weather-tip-box {
             max-width: 570px;
@@ -70,10 +58,8 @@
             text-align: left;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
-
         .weather-tip-box b { color: #ffeaa7; font-size: 0.95rem; }
         .weather-tip-box ul { margin: 6px 0 0 0; padding-left: 20px; }
-        .weather-tip-box li { margin-bottom: 4px; }
 
         .day-scroller {
             position: sticky;
@@ -84,9 +70,7 @@
             overflow-x: auto;
             padding: 12px 8px;
             z-index: 1000;
-            -webkit-overflow-scrolling: touch;
         }
-
         .day-scroller::-webkit-scrollbar { display: none; }
 
         .day-badge {
@@ -100,169 +84,70 @@
             font-size: 0.85rem;
             font-weight: 500;
             white-space: nowrap;
-            transition: all 0.2s ease;
         }
+        .day-badge.active { background-color: var(--soft-green); color: white; font-weight: bold; }
 
-        .day-badge.active {
-            background-color: var(--soft-green);
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 2px 6px rgba(64,145,108,0.3);
-        }
+        .container { max-width: 600px; margin: 15px auto; padding: 0 12px; }
+        .country-header { border-left: 6px solid var(--accent-red); padding-left: 12px; margin: 20px 0 15px 0; font-size: 1.3rem; color: var(--primary-color); font-weight: bold; }
 
-        .container {
-            max-width: 600px;
-            margin: 15px auto;
-            padding: 0 12px;
-        }
+        .day-card { background: var(--card-bg); border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; padding: 18px; scroll-margin-top: 85px; }
+        .day-card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #e9ecef; padding-bottom: 10px; margin-bottom: 12px; }
+        .day-tag { background: var(--primary-color); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
+        .day-date { color: var(--accent-red); font-weight: 700; font-size: 1rem; }
+        .day-title { font-size: 1.15rem; font-weight: 700; margin: 10px 0; color: #111111; line-height: 1.4; }
 
-        .country-header {
-            border-left: 6px solid var(--accent-red);
-            padding-left: 12px;
-            margin: 20px 0 15px 0;
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
+        .item-block { background: #fafafa; border-left: 4px solid var(--soft-green); padding: 12px; margin-top: 15px; border-radius: 0 8px 8px 0; }
+        .time-tag { display: inline-block; background-color: #f1f3f5; color: #495057; font-size: 0.8rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; border: 1px solid #dee2e6; }
+        .item-title { font-weight: 700; font-size: 1rem; color: #222; margin-top: 2px; margin-bottom: 10px; }
+        .item-img { width: 100%; height: auto; max-height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+        .item-details { margin: 8px 0 0 0; padding-left: 18px; font-size: 0.9rem; color: #444; line-height: 1.5; }
+        .item-details li { margin-bottom: 4px; }
 
-        .day-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 20px;
-            padding: 18px;
-            scroll-margin-top: 85px;
-        }
-
-        .day-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px dashed #e9ecef;
-            padding-bottom: 10px;
-            margin-bottom: 12px;
-        }
-
-        .day-tag {
-            background: var(--primary-color);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .day-date {
-            color: var(--accent-red);
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .day-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin: 10px 0;
-            color: #111111;
-            line-height: 1.4;
-        }
-
-        .item-block {
-            background: #fafafa;
-            border-left: 4px solid var(--soft-green);
-            padding: 12px;
-            margin-top: 15px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .time-tag {
-            display: inline-block;
-            background-color: #f1f3f5;
-            color: #495057;
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            border: 1px solid #dee2e6;
-        }
-
-        .item-title {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #222;
-            margin-top: 2px;
-            margin-bottom: 10px;
-        }
-
-        .item-img {
-            width: 100%;
-            height: auto;
-            max-height: 220px;
-            object-fit: cover;
+        /* 內嵌方案卡片樣式 */
+        .food-option-card {
+            background: var(--option-bg);
+            border: 1px solid var(--option-border);
             border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            padding: 12px;
+            margin-top: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
         }
-
-        .item-details {
-            margin: 8px 0 0 0;
-            padding-left: 18px;
-            font-size: 0.9rem;
-            color: #444;
+        .option-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #111;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #e1f4e8;
+            padding-bottom: 4px;
+        }
+        .option-info-list {
+            margin: 5px 0 10px 0;
+            padding-left: 16px;
+            font-size: 0.85rem;
+            color: #555;
             line-height: 1.5;
         }
-        
-        .item-details li { margin-bottom: 6px; }
+        .option-info-list li { margin-bottom: 4px; }
 
-        .btn-group {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
+        .btn-group { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .action-btn { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; text-decoration: none; }
         .btn-map { background-color: #e2eafc; color: #1d3557; }
         .btn-ticket { background-color: #ffe3a8; color: #d90429; border: 1px solid #ffe3a8; }
 
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--primary-color);
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            text-decoration: none;
-        }
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: var(--primary-color); color: white; width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2); text-decoration: none; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>🍏 2026 青森初夏新綠之旅</h1>
-        <p>2026/06/09 - 06/13 ｜ 五天四夜家族自駕完美極順版</p>
+        <p>2026/06/09 - 06/13 ｜ 五天四夜家族自駕多餐飲方案版</p>
         
         <div class="weather-tip-box">
-            <b>🌤️ 6月中旬 ｜ 青森即時氣溫與自駕提醒：</b>
+            <b>🌤️ 6月中旬 ｜ 點餐與自駕提示：</b>
             <ul>
-                <li>🌡️ <b>市區氣溫</b>：約 15°C ~ 22°C。白天陽光下體感如初夏般舒適（穿短袖或薄長袖），但<b>一入夜便會降到 15°C 左右</b>，強烈建議隨身攜帶防風外套。</li>
-                <li>⛰️ <b>山區秘境（奥入瀨、八甲田、酸ヶ湯）</b>：海拔較高，氣溫通常比市區<b>再低 5°C ~ 8°C</b>。清晨或陰天可能僅有 10°C 出頭，請務必幫家人準備<b>保暖防風外套、發熱衣</b>（泡湯後防著涼）及好走路的防滑防潑水球鞋。</li>
-                <li>⛽ <b>自駕小叮嚀</b>：山區易起霧，請全程開啟大燈。青森鄉下加油站通常 18:00-19:00 就打烊，油量剩<b>半桶</b>時就要順路加滿。</li>
+                <li>💡 每日用餐時段內嵌<b>多間備選餐廳選項</b>，含招牌必點與預約攻略，可看當天心情一鍵導航！</li>
+                <li>⛰️ 山區（奧入瀨、八甲田）體感偏冷，請為長輩隨身攜帶外套、好走路的防滑球鞋。</li>
             </ul>
         </div>
     </header>
@@ -332,16 +217,40 @@
     </div>
     <div class="item-block">
       <span class="time-tag">⏱ 19:00 - 20:30</span>
-      <div class="item-title">🥩 🍽 晚餐 ｜ 炭火燒肉 Daijun（大純） 大口吃青森牛</div>
+      <div class="item-title">🥩 🍽 晚餐 ｜ 第一晚慶功宴餐廳（三選一方案）</div>
       <ul class="item-details">
-        <li>開車返回青森市區飯店 Check-in 並停妥車輛。</li>
-        <li>🏠 住宿點：Daiwa Roynet Hotel Aomori（戴瓦羅內青森飯店）</li>
-        <li>😋 慶祝首晚：享用市區極具人氣的頂級炭火燒肉，肉質鮮美、油花勻稱。第一天坐飛機較累，免排隊的預約制燒肉是最佳選擇！</li>
-        <li>💡 貼心提醒：此店極為熱門，請務必提早透過 Tabelog 或委託飯店提早 1-2 週預訂。</li>
+        <li>開車返回青森市區飯店 Check-in 並停妥車輛（住宿點：Daiwa Roynet Hotel Aomori）。</li>
       </ul>
-      <div class="btn-group">
-        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=炭火焼肉+大純" target="_blank">📍 地圖導航</a>
-        <a class="action-btn btn-ticket" href="https://tabelog.com/tw/aomori/A0201/A020101/2007966/" target="_blank">🎫 預約/食記連結</a>
+      <div class="food-option-card">
+        <div class="option-name">🔥 方案 A：炭火燒肉 Daijun（大純）—— 頂級青森牛首選</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：極度熱門！<b>必須提早 1-2 週</b>透過 Tabelog 或請飯店代訂。訂到就免排隊！</li>
+          <li>😋 <b>推薦點啥</b>：青森牛特上牛舌、厚切牛五花、牛里肌。肉質油花分佈極美，炭火現烤香氣逼人。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/XpHKEu292SBLDAip9?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+          <a class="action-btn btn-ticket" href="https://tabelog.com/tw/aomori/A0201/A020101/2007966/" target="_blank">🎫 Tabelog 連結</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🏮 方案 B：助六（鄉土料理）—— 沉浸式睡魔祭氛圍</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：人潮眾多，<b>強烈建議提早預約</b>。若臨時走訪極容易客滿。</li>
+          <li>😋 <b>推薦點啥</b>：干貝味噌燒（貝焼き味噌）、八戶仙貝汁。可以一次吃全青森最道地的地道鄉土菜，配地酒超搭！</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/R2R6o5SVx8u4HidZ8?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🚗 方案 C：市區人氣燒肉店 —— 晚下山、行程延誤的雨天備案</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：主打<b>晚上 19:00 以前進店免預約</b>。適合第一天取車或路況有延誤時，當作不用拼時間的備案。</li>
+          <li>😋 <b>推薦點啥</b>：綜合燒肉拼盤、烤牛五花。隨性大口吃肉無負擔。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/Dpr3A2pNWX5JJ9Rk6?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
       </div>
     </div>
   </div>
@@ -368,7 +277,7 @@
       <img class="item-img" src="https://svcstrg.cld.navitime.jp/imgfile/02301_1310349_01.jpg" alt="🌿 🌲 核心亮點 ｜ 奥入瀬渓流 森林新綠散策 🌟" loading="lazy">
       <ul class="item-details">
         <li>✨ 必看奇景：6 月正值完美的新綠季節，整片森林翠綠欲滴，人潮舒適不擁擠！</li>
-        <li>🚶 散步精華路線：自駕可分段停靠。必看點包含：石ヶ戶（傳奇女盜小屋）、阿修羅之流（水流最湍急磅礴處）、雲井瀑布、以及寬闊精跡的「銚子大滝」。</li>
+        <li>🚶 散步精華路線：自駕可分段停靠。必看點包含：石ヶ戶（傳奇女盜小屋）、阿修羅之流、雲井瀑布、以及寬闊精跡的「銚子大滝」。</li>
         <li>💡 貼心提醒：步道多有水氣，請全家穿著防滑好走路的球鞋。</li>
       </ul>
       <div class="btn-group">
@@ -392,7 +301,7 @@
       <img class="item-img" src="https://www.jrtimes.tw/upload/control/c149bd2c-01a3-4c1e-8faa-3ba91a2540ef.jpg" alt="♨️ 秘湯 ➔ 酸ヶ湯温泉 煙霧裊裊的古老體驗" loading="lazy">
       <ul class="item-details">
         <li>回程經過著名的八甲田山區，停靠擁有 300 年歷史的「酸ヶ湯温泉」。</li>
-        <li>體驗其知名的千人混浴檜木造大浴場（日歸泡湯直接購票即可，若需要個室休息或用餐方案才需事先預約）。</li>
+        <li>體驗其知名的千人混浴檜木造大浴場（日歸泡湯直接購票即可）。</li>
       </ul>
       <div class="btn-group">
         <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Sukayu+Onsen" target="_blank">📍 地圖導航</a>
@@ -400,13 +309,49 @@
     </div>
     <div class="item-block">
       <span class="time-tag">⏱ 18:30 - 20:30</span>
-      <div class="item-title">🍽 晚餐 ｜ 返回市區 ＆ 帆立貝料理大餐</div>
+      <div class="item-title">🍽 晚餐 ｜ 爬山泡湯完的體力大補大餐（四選一方案）</div>
       <ul class="item-details">
         <li>約 18:30 左右安全返回市區（山區開車建議在 17:00 前下山較安全）。</li>
-        <li>晚餐安排：尋找提供「帆立貝味噌燒（貝焼き味噌）」的在地老字號餐廳，大口品嚐青森引以為傲的肥美扇貝。</li>
       </ul>
-      <div class="btn-group">
-        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Aomori+Station" target="_blank">📍 地圖導航</a>
+      <div class="food-option-card">
+        <div class="option-name">🍣 方案 A：青森站前壽司名店 —— 長輩最愛極鮮現流握壽司</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：無須預約或現場排隊，緊鄰車站，地利之便。適合健行完不想多走路的長輩。</li>
+          <li>😋 <b>推薦點啥</b>：初夏黑鮪魚大腹壽司、當地陸奧灣特產干貝握壽司、當季地魚刺身拼盤。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/jUZzRvEz1dSiCtBp8?g_st=ipc" target="_blank">📍 餐廳地圖導航</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🐑 方案 B：在地蒙古烤肉 —— 鑊氣十足、大口吃肉補體力</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：現場排隊即可。走完一天森林步道消耗極大體力，吃這個最過癮！</li>
+          <li>😋 <b>推薦點啥</b>：招牌烤鮮羊肉片、厚切羊排、搭配高麗菜與在地洋蔥。完全沒有腥 suspicion 且醬汁極為下飯。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/ido8SC2VSDzy8Hxc8?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🍶 方案 C：Taru（樽壽司）—— 追求精緻與純日式老鋪體驗</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：價位偏高，是老字號的板前精緻壽司。<b>店員多不通英文，點餐需要會一點點日文</b>喔！</li>
+          <li>😋 <b>推薦點啥</b>：主廚配好（Omakase）的當日極上握壽司套餐、穴子魚壽司、海膽手卷。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/ido8SC2VSDzy8Hxc8?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🐚 方案 D：在地老字號帆立貝料理屋 —— 經典名產帆立貝味噌燒</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：青森市區到處都有，可現場碰運氣，也是極方便的在地化方案。</li>
+          <li>😋 <b>推薦點啥</b>：帆立貝味噌燒（貝焼き味噌）。用大干貝殼盛裝，把大干貝、鰹魚高湯與雞蛋、味噌一起熬煮，香濃無比。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=" target="_blank">📍 餐廳地圖導航</a>
+        </div>
       </div>
     </div>
   </div>
@@ -474,14 +419,29 @@
     </div>
     <div class="item-block">
       <span class="time-tag">⏱ 19:00 - 20:30</span>
-      <div class="item-title">🐟 🍽 晚餐 ｜ お食事処 おさない（Osanai 干貝與生魚片名店）</div>
+      <div class="item-title">🐟 🍽 晚餐 ｜ 大掃貨後的市區鮮魚/地酒狂歡（二選一方案）</div>
       <ul class="item-details">
-        <li>😋 鮮味爆棚：青森老字號頂級排隊名店。招牌是驚人肥美的「帆立貝刺身（干貝生魚片）」、「爆卵海膽」與各式在地烤魚定食，性價比極高！</li>
-        <li>📌 現場排隊：此店不可預約，現場需要排隊。建議返回市區後，派一人先停好車，其餘家人可先到店門口排隊，以節省時間。</li>
+        <li>大掃貨完將戰利品塞回車上後，即可步行前往市區享用晚餐。</li>
       </ul>
-      <div class="btn-group">
-        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=お食事処+おさない" target="_blank">📍 地圖導航</a>
-        <a class="action-btn btn-ticket" href="https://maps.app.goo.gl/rTKEhWf7ZfhWtqL47?g_st=ic" target="_blank">🔗 景點/餐廳資訊</a>
+      <div class="food-option-card">
+        <div class="option-name">🐟 方案 A：お食事処 おさない —— 超平價干貝海鮮爆棚名店</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：<b>完全不可預約，只能現場排隊</b>。排隊人潮極長，建議派一名家人先去卡位。若排太久不想等，請立刻換到方案 B 居酒屋！</li>
+          <li>😋 <b>推薦點啥</b>：帆立貝刺身定食（干貝生魚片多汁又甜）、爆卵海膽丼、活扇貝現烤定食。性價比在青森市區無人能敵。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/rTKEhWf7ZfhWtqL47?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🍺 方案 B：新町通老字號居酒屋 —— 隨性放鬆的地酒小酌夜</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：無須預約，現場有位置直接進去。氣氛非常自由、熱鬧，全家聊天大笑最放鬆。</li>
+          <li>😋 <b>推薦點啥</b>：點青森頂級名酒「田酒」或「八仙」冷酒，搭配炭火地雞串燒、鹽烤當日海鮮、炸十和田牛蒡條。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/H55HZgsaTDgmFMAv5?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
       </div>
     </div>
   </div>
@@ -549,9 +509,9 @@
     </div>
     <div class="item-block">
       <span class="time-tag">⏱ 18:30 - 20:30</span>
-      <div class="item-title">🍽 晚餐 ｜ 青森市區新町通商店街晚餐</div>
+      <div class="item-title">🍽 晚餐 ｜ 青森市區新町通商店街自由覓食</div>
       <ul class="item-details">
-        <li>晚餐安排：回到新町通商店街附近散步，尋找在地美味的居酒屋或青森鄉土料理屋。</li>
+        <li>晚餐安排：今天拉車在八戶吹海風較耗體力，晚餐不做硬性限制。回到飯店停好車後，新町通周邊有許多拉麵屋、定食屋或小酒館，可全家一起散步盲選，或是繼續挑戰前幾天沒吃到的備選名單！</li>
       </ul>
       <div class="btn-group">
         <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=Daiwa+Roynet+Hotel+Aomori" target="_blank">📍 地圖導航</a>
@@ -587,15 +547,39 @@
     </div>
     <div class="item-block">
       <span class="time-tag">⏱ 10:30 - 12:30</span>
-      <div class="item-title">🍏 🎁 購物 ＆ 🍽 中午午餐 ｜ A-FACTORY（文創伴手禮與港景餐廳）🌟</div>
-      <img class="item-img" src="https://aomori-tourism.com/lsc/upfile/spot/0000/3697/3697_107_l.jpg" alt="🍏 🎁 購物 ＆ 🍽 中午午餐 ｜ A-FACTORY（文創伴手禮與港景餐廳）🌟" loading="lazy">
+      <div class="item-title">🍏 🎁 購物 ＆ 🍽 中午 ｜ 搭機前最後的海鮮/文創午餐狂歡（三選一方案）</div>
       <ul class="item-details">
         <li>✨ 必買聖地：蓋在海邊的質感三角形木造商場。可在這裡大掃貨：各式青森蘋果乾、蘋果派、蘋果果汁等。</li>
-        <li>🍽 午餐安排：直接在 A-FACTORY 的質感餐廳內享用午餐（例如 2 樓的義式蕎麥薄餅餐廳 Galetteria da Sasino 或 1 樓的美食廣場），看著陸奧灣港景享用精緻的在地輕食、蘋果咖哩或牛肉漢堡排排排飯，好整以暇不趕時間。</li>
       </ul>
-      <div class="btn-group">
-        <a class="action-btn btn-map" href="https://www.google.com/maps/search/?api=1&query=A-FACTORY" target="_blank">📍 地圖導航</a>
-        <a class="action-btn btn-ticket" href="https://maps.app.goo.gl/Dpr3A2pNWX5JJ9Rk6?g_st=ic" target="_blank">🔗 景點/餐廳資訊</a>
+      <div class="food-option-card">
+        <div class="option-name">🍏 方案 A：A-FACTORY 港景餐廳 —— 悠閒看海享用文創輕食</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：無須預約。商場內座位寬敞、冷氣舒適，可以直接看著陸奧灣大片落地窗吃飯，時間最悠閒不趕。</li>
+          <li>😋 <b>推薦點啥</b>：2樓的義式蕎麥薄餅（Galette）、牛肉漢報排飯、現打蘋果西打泡泡飲。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/Dpr3A2pNWX5JJ9Rk6?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🐟 方案 B：お食事処 おさない —— 補吃第三晚沒排到的平價干貝</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：<b>不可預約</b>。中午 11:00 開始營業，建議逛完睡魔之家 10:50 就先去門口當第一波客，吃完立刻上車去機場，時間很完美！</li>
+          <li>😋 <b>推薦點啥</b>：干貝刺身定食、爆卵海膽、烤銀鱈魚定食。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/rTKEhWf7ZfhWtqL47?g_st=ic" target="_blank">📍 餐廳地圖導航</a>
+        </div>
+      </div>
+      <div class="food-option-card">
+        <div class="option-name">🍣 方案 C：青森站前壽司名店 —— 用奢華握壽司為青森行劃下句點</div>
+        <ul class="option-info-list">
+          <li>📢 <b>預約攻略</b>：免預約，站前走路 2 分鐘即達，出餐快，極適合當作回國前的海鮮最後衝刺。</li>
+          <li>😋 <b>推薦點啥</b>：主廚特選十貫、鮭魚卵軍艦、新鮮茶碗蒸。</li>
+        </ul>
+        <div class="btn-group">
+          <a class="action-btn btn-map" href="https://maps.app.goo.gl/jUZzRvEz1dSiCtBp8?g_st=ipc" target="_blank">📍 餐廳地圖導航</a>
+        </div>
       </div>
     </div>
     <div class="item-block">
@@ -628,41 +612,27 @@
             const badgeOffset = activeBadge.offsetLeft;
             const badgeWidth = activeBadge.offsetWidth;
             const scrollerWidth = scroller.offsetWidth;
-            scroller.scrollTo({
-                left: badgeOffset - (scrollerWidth / 2) + (badgeWidth / 2),
-                behavior: 'smooth'
-            });
+            scroller.scrollTo({ left: badgeOffset - (scrollerWidth / 2) + (badgeWidth / 2), behavior: 'smooth' });
         }
 
         badges.forEach(badge => {
             badge.addEventListener('click', function(e) {
                 isClickScrolling = true;
                 clearTimeout(clickTimeout);
-
                 badges.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 centerBadge(this);
-
-                clickTimeout = setTimeout(() => {
-                    isClickScrolling = false;
-                }, 800); 
+                clickTimeout = setTimeout(() => { isClickScrolling = false; }, 800); 
             });
         });
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '-20% 0px -60% 0px',
-            threshold: 0
-        };
-
+        const observerOptions = { root: null, rootMargin: '-20% 0px -60% 0px', threshold: 0 };
         const observer = new IntersectionObserver((entries) => {
             if (isClickScrolling) return;
-
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const currentId = entry.target.getAttribute('id');
                     const targetBadge = document.querySelector(`.day-badge[href="#${currentId}"]`);
-                    
                     if (targetBadge) {
                         badges.forEach(b => b.classList.remove('active'));
                         targetBadge.classList.add('active');
@@ -673,10 +643,7 @@
         }, observerOptions);
 
         cards.forEach(card => observer.observe(card));
-
-        if(badges.length > 0) {
-            badges[0].classList.add('active');
-        }
+        if(badges.length > 0) { badges[0].classList.add('active'); }
     </script>
 </body>
 </html>
